@@ -4,9 +4,47 @@ import sqlite3
 import re
 import os
 
+def init_db():
+    conn = sqlite3.connect("fintrack.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fullname TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS expenses(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        title TEXT NOT NULL,
+        amount REAL NOT NULL,
+        category TEXT NOT NULL,
+        date TEXT NOT NULL
+    )
+    """)
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS budgets(
+        user_id INTEGER PRIMARY KEY,
+        amount REAL NOT NULL
+    )
+    """)
+
+    conn.commit()
+    conn.close()
 
 
 app = Flask(__name__)
+
+
+init_db()
+
+
 app.secret_key = os.environ.get(
     "SECRET_KEY",
     "fintrack_secret_key"
