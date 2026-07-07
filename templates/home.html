@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FinTrack - Expense Tracker</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>💰 FinTrack</h2>
+
+    <div>
+        <a class="nav-btn" href="/login">Login</a>
+        <a class="nav-btn" href="/register">Register</a>
+    </div>
+</div>
+
+<div style="
+    max-width:900px;
+    margin:80px auto;
+    text-align:center;
+">
+
+    <h1 style="
+        font-size:60px;
+        color:#2c3e50;
+        margin-bottom:20px;
+    ">
+        💰 FinTrack
+    </h1>
+
+    <p style="
+        font-size:22px;
+        color:#555;
+        margin-bottom:40px;
+    ">
+        Track your expenses smarter and stay within your budget.
+    </p>
+
+   <div style="
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin:40px 0;
+    flex-wrap:wrap;
+    font-size:18px;
+    font-weight:bold;
+    color:#2c3e50;
+">
+    <div>📊 Analytics Dashboard</div>
+    <div>💰 Budget Tracking</div>
+    <div>📁 CSV Export</div>
+</div>
+
+</div>
+
+<div class="summary-container">
+
+    <div class="summary-card">
+        <h3>📊 Expense Tracking</h3>
+        <p>
+            Record and manage all your daily expenses.
+        </p>
+    </div>
+
+    <div class="summary-card">
+        <h3>💰 Budget Management</h3>
+        <p>
+            Set monthly budgets and monitor spending.
+        </p>
+    </div>
+
+    <div class="summary-card">
+        <h3>📈 Analytics</h3>
+        <p>
+            Visualize expenses with charts and reports.
+        </p>
+    </div>
+
+</div>
+
+<footer>
+    <p>
+        FinTrack © 2026 | Built by Yeshwanth Reddy
+    </p>
+</footer>
+
+</body>
+</html>

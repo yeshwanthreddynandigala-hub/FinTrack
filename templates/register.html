@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register - FinTrack</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>FinTrack</h2>
+
+    <div>
+        <a class="nav-btn" href="/">Home</a>
+        <a class="nav-btn" href="/login">Login</a>
+    </div>
+</div>
+
+<h1>📝 Create Account</h1>
+
+<div class="card" style="max-width:500px; margin:auto;">
+
+    <form method="POST">
+
+        <label><strong>Full Name</strong></label>
+        <br><br>
+
+        <input
+            type="text"
+            name="fullname"
+            placeholder="Enter your full name"
+            minlength="3"
+            required
+            autocomplete="name"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                box-sizing:border-box;
+            "
+        >
+
+        <br><br>
+
+        <label><strong>Email</strong></label>
+        <br><br>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+            autocomplete="email"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                box-sizing:border-box;
+            "
+        >
+
+        <br><br>
+
+        <label><strong>Password</strong></label>
+        <br><br>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Create a password"
+            minlength="8"
+            required
+            autocomplete="new-password"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                box-sizing:border-box;
+            "
+        >
+
+        <br>
+
+        <label style="font-size:14px; color:#555;">
+            <input type="checkbox" onclick="togglePassword()">
+            Show Password
+        </label>
+
+        <br>
+
+        <small>
+            Password must contain:
+            8+ characters, uppercase, lowercase,
+            number and special character.
+        </small>
+
+        <br><br>
+
+        <label><strong>Confirm Password</strong></label>
+        <br><br>
+
+        <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            placeholder="Confirm your password"
+            minlength="8"
+            required
+            autocomplete="new-password"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                box-sizing:border-box;
+            "
+        >
+
+        <br>
+
+        <label style="font-size:14px; color:#555;">
+            <input type="checkbox" onclick="toggleConfirmPassword()">
+            Show Confirm Password
+        </label>
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="nav-btn"
+            style="border:none; cursor:pointer;"
+        >
+            Register
+        </button>
+
+    </form>
+
+    <br>
+
+    <p style="text-align:center;">
+        Already have an account?
+        <a href="/login">Login here</a>
+    </p>
+
+</div>
+
+<footer>
+    <p>
+        FinTrack © 2026 | Built by Yeshwanth Reddy
+    </p>
+</footer>
+
+<script>
+function togglePassword() {
+    const password = document.getElementById("password");
+
+    if (password.type === "password") {
+        password.type = "text";
+    } else {
+        password.type = "password";
+    }
+}
+
+function toggleConfirmPassword() {
+    const confirmPassword = document.getElementById("confirm_password");
+
+    if (confirmPassword.type === "password") {
+        confirmPassword.type = "text";
+    } else {
+        confirmPassword.type = "password";
+    }
+}
+</script>
+
+</body>
+</html>

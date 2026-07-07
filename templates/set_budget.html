@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Budget - FinTrack</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>FinTrack</h2>
+
+    <div>
+        <a class="nav-btn" href="/dashboard">
+            Dashboard
+        </a>
+
+        <a class="logout-btn" href="/logout">
+            Logout
+        </a>
+    </div>
+</div>
+
+<h1>💰 Set Monthly Budget</h1>
+
+<div class="card" style="max-width:500px; margin:auto;">
+
+    {% if budget %}
+        <p style="text-align:center;">
+            <strong>Current Budget:</strong> ₹{{ budget }}
+        </p>
+        <hr>
+    {% endif %}
+
+    <form method="POST">
+
+        <label><strong>Budget Amount</strong></label>
+
+        <br><br>
+
+        <input
+            type="number"
+            step="0.01"
+            min="1"
+            name="amount"
+            placeholder="Enter monthly budget"
+            required
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                box-sizing:border-box;
+            "
+        >
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="nav-btn"
+            style="border:none; cursor:pointer;"
+        >
+            Save / Update Budget
+        </button>
+
+    </form>
+
+</div>
+
+<footer>
+    <p>
+        FinTrack © 2026 | Built by Yeshwanth Reddy
+    </p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - FinTrack</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>FinTrack</h2>
+
+    <div>
+        <a class="nav-btn" href="/">Home</a>
+
+        <a class="nav-btn" href="/register">
+            Register
+        </a>
+    </div>
+</div>
+
+<h1>🔐 Login</h1>
+
+<div class="card" style="max-width:500px; margin:auto;">
+
+    {% if error %}
+    <p style="
+        color:red;
+        text-align:center;
+        font-weight:bold;
+        margin-bottom:15px;
+    ">
+        {{ error }}
+    </p>
+    {% endif %}
+
+    <form method="POST">
+
+        <label><strong>Email</strong></label>
+
+        <br><br>
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            required
+            autocomplete="email"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                box-sizing:border-box;
+            "
+        >
+
+        <br><br>
+
+        <label><strong>Password</strong></label>
+
+        <br><br>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+            autocomplete="current-password"
+            style="
+                width:100%;
+                padding:12px;
+                border:1px solid #ccc;
+                border-radius:8px;
+                box-sizing:border-box;
+            "
+        >
+
+        <br><br>
+
+        <label style="font-size:14px; color:#555;">
+            <input type="checkbox" onclick="togglePassword()">
+            Show Password
+        </label>
+
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="nav-btn"
+            style="border:none; cursor:pointer;"
+        >
+            Login
+        </button>
+
+    </form>
+
+    <br>
+
+    <p style="text-align:center;">
+        Don't have an account?
+        <a href="/register">Register here</a>
+    </p>
+
+</div>
+
+<footer>
+    <p>
+        FinTrack © 2026 | Built by Yeshwanth Reddy
+    </p>
+</footer>
+
+<script>
+function togglePassword() {
+
+    const password =
+        document.getElementById("password");
+
+    if (password.type === "password") {
+        password.type = "text";
+    } else {
+        password.type = "password";
+    }
+}
+</script>
+
+</body>
+</html>

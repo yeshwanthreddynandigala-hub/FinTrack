@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - FinTrack</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="navbar">
+    <h2>💰 FinTrack</h2>
+
+    <div>
+        <a class="nav-btn" href="/add_expense">+ Add Expense</a>
+
+        <a class="nav-btn" href="/set_budget">Set Budget</a>
+
+        <a class="nav-btn" href="/export">Export CSV</a>
+
+        <a class="logout-btn" href="{{ url_for('logout') }}">
+            Logout
+        </a>
+    </div>
+</div>
+
+<h1>Welcome Back, {{ name }} 👋</h1>
+
+<div class="summary">
+
+    <div class="box">
+        <h3>Total Expenses</h3>
+        <h2>₹{{ "{:,.0f}".format(total) }}</h2>
+    </div>
+
+    <div class="box">
+        <h3>Monthly Budget</h3>
+        <h2>₹{{ "{:,.0f}".format(budget) }}</h2>
+    </div>
+
+    <div class="box">
+        <h3>Remaining Budget</h3>
+        <h2>₹{{ "{:,.0f}".format(remaining) }}</h2>
+        <p>{{ status }}</p>
+    </div>
+
+</div>
+
+<div class="card" style="max-width:600px; margin:20px auto;">
+
+    <form method="GET" action="/dashboard">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ search }}"
+            placeholder="Search expenses..."
+            class="search-box"
+        >
+
+        <br><br>
+
+        <button
+            type="submit"
+            class="nav-btn"
+            style="border:none; cursor:pointer;"
+        >
+             Search
+        </button>
+
+        <a
+            href="/dashboard"
+            class="nav-btn"
+            style="background:#e74c3c;"
+        >
+             Clear
+        </a>
+
+    </form>
+
+</div>
+
+<div class="dashboard-content">
+
+    <div class="card">
+
+        <h2>Your Expenses</h2>
+
+        {% if expenses %}
+
+        <table>
+
+            <tr>
+                <th>Title</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+
+            {% for expense in expenses %}
+
+            <tr>
+
+                <td>{{ expense[2] }}</td>
+                <td>₹{{ "{:,.0f}".format(expense[3]) }}</td>
+                <td>{{ expense[4] }}</td>
+                <td>{{ expense[5] }}</td>
+
+                <td>
+                    <a class="edit-btn"
+                       href="/edit/{{ expense[0] }}">
+                        Edit
+                    </a>
+                </td>
+
+                <td>
+                    <a class="delete-btn"
+                        href="/delete/{{ expense[0] }}">
+                            Delete
+                    </a>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        {% else %}
+
+        <h3 style="text-align:center; padding:40px;">
+            No expenses added yet 💰
+        </h3>
+
+        {% endif %}
+
+    </div>
+
+    <div class="card">
+
+        <h2>📊 Expense Distribution</h2>
+
+        <div class="chart-container">
+            <canvas id="expenseChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const labels = JSON.parse('{{ category_labels | tojson | safe }}');
+const values = JSON.parse('{{ category_values | tojson | safe }}');
+
+new Chart(document.getElementById("expenseChart"), {
+    type: "doughnut",
+    data: {
+        labels: labels,
+        datasets: [{
+            data: values
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+</script>
+
+<footer>
+    <p>
+        FinTrack © 2026 | Built by Yeshwanth Reddy
+    </p>
+</footer>
+
+</body>
+</html>
+
+

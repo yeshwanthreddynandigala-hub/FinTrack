@@ -1,0 +1,266 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:30px;
+    overflow-x:hidden;
+}
+
+.navbar{
+    background:white;
+    padding:20px 30px;
+    border-radius:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.navbar h2{
+    color:#2c3e50;
+}
+
+.nav-btn,
+.logout-btn{
+    text-decoration:none;
+    color:white;
+    padding:10px 18px;
+    border-radius:8px;
+    margin-left:10px;
+    transition:0.3s;
+}
+
+.nav-btn{
+    background:#3498db;
+}
+
+.logout-btn{
+    background:#e74c3c;
+}
+
+.nav-btn:hover,
+.logout-btn:hover,
+.edit-btn:hover,
+.delete-btn:hover{
+    opacity:0.85;
+}
+
+h1{
+    margin-top:30px;
+    margin-bottom:20px;
+    color:#2c3e50;
+}
+
+.summary{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.box{
+    flex:1;
+    min-height:120px;
+    background:linear-gradient(135deg,#4facfe,#00c6ff);
+    color:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+}
+
+.box h2{
+    margin-top:10px;
+    color:white;
+    font-size:34px;
+}
+
+.box h3{
+    color:white;
+}
+
+.box p{
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.dashboard-content{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.dashboard-content .card:first-child{
+    flex:2;
+}
+
+.dashboard-content .card:last-child{
+    flex:1;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    transition:transform 0.3s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+.card h2{
+    margin-bottom:20px;
+    color:#2c3e50;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#3498db;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+tr:hover{
+    background:#f8fafc;
+}
+
+.edit-btn{
+    background:#3498db;
+    color:white;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+}
+
+.delete-btn{
+    background:#e74c3c;
+    color:white;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+}
+
+.chart-container{
+    width:100%;
+    max-width:400px;
+    height:350px;
+    margin:auto;
+    position:relative;
+}
+
+.category-container{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+
+.category-card{
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
+    padding:18px;
+    border-radius:15px;
+    min-width:150px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    transition:transform 0.3s;
+}
+
+.category-card:hover{
+    transform:translateY(-5px);
+}
+
+.category-card h4{
+    margin-bottom:10px;
+}
+
+.category-card p{
+    font-size:22px;
+    font-weight:bold;
+}
+
+footer{
+    margin-top:40px;
+    text-align:center;
+    color:#777;
+    padding:20px;
+}
+
+@media (max-width: 768px){
+
+    .summary{
+        flex-direction:column;
+    }
+
+    .dashboard-content{
+        flex-direction:column;
+    }
+
+    .navbar{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+
+    table{
+        font-size:14px;
+    }
+}
+
+.search-box{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+    font-size:15px;
+}
+
+.summary-container{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin:50px auto;
+    max-width:1000px;
+}
+
+.summary-card{
+    background:white;
+    padding:25px;
+    width:280px;
+    border-radius:18px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    text-align:center;
+    transition:transform 0.3s;
+}
+
+.summary-card:hover{
+    transform:translateY(-5px);
+}
+
+.summary-card h3{
+    margin-bottom:15px;
+    color:#2c3e50;
+}
+
+.summary-card p{
+    color:#555;
+    line-height:1.5;
+}
