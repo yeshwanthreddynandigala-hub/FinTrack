@@ -1,16 +1,17 @@
 from flask import Flask, render_template, request, session, redirect, url_for, Response
 from werkzeug.security import generate_password_hash, check_password_hash
-import sqlite3
+from db import get_connection
 import re
 import os
 
+
 def init_db():
-    conn = sqlite3.connect("fintrack.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         fullname TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL
@@ -19,7 +20,7 @@ def init_db():
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS expenses(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         user_id INTEGER NOT NULL,
         title TEXT NOT NULL,
         amount REAL NOT NULL,
@@ -69,11 +70,11 @@ def delete_expense(id):
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-    conn = sqlite3.connect("fintrack.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        "DELETE FROM expenses WHERE id=? AND user_id=?",
+        "DELETE FROM expenses WHERE id=%s AND user_id=%s",
         (id, session["user_id"])
     )
 
@@ -90,7 +91,7 @@ def edit_expense(id):
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-    conn = sqlite3.connect("fintrack.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     if request.method == "POST":
@@ -111,8 +112,8 @@ def edit_expense(id):
 
         cursor.execute("""
         UPDATE expenses
-        SET title=?, amount=?, category=?, date=?
-        WHERE id=? AND user_id=?
+        SET title=%s, amount=%s, category=%s, date=%s
+        WHERE id=%s AND user_id=%s
         """, (
             title,
             amount,
@@ -128,7 +129,7 @@ def edit_expense(id):
         return redirect(url_for("dashboard"))
 
     cursor.execute(
-        "SELECT * FROM expenses WHERE id=? AND user_id=?",
+        "SELECT * FROM expenses WHERE id=%s AND user_id=%s",
         (id, session["user_id"])
     )
 
@@ -171,12 +172,12 @@ def add_expense():
 
         user_id = session["user_id"]
 
-        conn = sqlite3.connect("fintrack.db")
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute("""
         INSERT INTO expenses(user_id,title,amount,category,date)
-        VALUES(?,?,?,?,?)
+        VALUES(%s,%s,%s,%s,%s)
         """, (user_id, title, amount, category, date))
 
         conn.commit()
@@ -196,7 +197,7 @@ def set_budget():
 
     user_id = session["user_id"]
 
-    conn = sqlite3.connect("fintrack.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     if request.method == "POST":
@@ -210,17 +211,20 @@ def set_budget():
             return "Amount must be greater than 0"
 
         cursor.execute("""
-        INSERT OR REPLACE INTO budgets(user_id, amount)
-        VALUES(?, ?)
-        """, (user_id, amount))
-
+            INSERT INTO budgets(user_id, amount)
+            VALUES(%s, %s)
+            ON CONFLICT (user_id)
+            DO UPDATE SET amount = EXCLUDED.amount
+            """, (user_id, amount)
+        )
+        
         conn.commit()
         conn.close()
 
         return redirect(url_for("dashboard"))
 
     cursor.execute(
-        "SELECT amount FROM budgets WHERE user_id=?",
+        "SELECT amount FROM budgets WHERE user_id=%s",
         (user_id,)
     )
 
@@ -247,11 +251,11 @@ def login():
         email = request.form["email"].strip()
         password = request.form["password"]
 
-        conn = sqlite3.connect("fintrack.db")
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT * FROM users WHERE email=?",
+            "SELECT * FROM users WHERE email=%s",
             (email,)
         )
 
@@ -281,25 +285,25 @@ def dashboard():
 
     search = request.args.get("search", "")
 
-    conn = sqlite3.connect("fintrack.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM users WHERE id=?",
+        "SELECT * FROM users WHERE id=%s",
         (user_id,)
     )
 
     user = cursor.fetchone()
 
     cursor.execute(
-        "SELECT amount FROM budgets WHERE user_id=?",
+        "SELECT amount FROM budgets WHERE user_id=%s",
         (user_id,)
     )
 
     budget_data = cursor.fetchone()
 
     cursor.execute(
-    "SELECT * FROM expenses WHERE user_id=?",
+    "SELECT * FROM expenses WHERE user_id=%s",
     (user_id,)
     )
 
@@ -309,10 +313,10 @@ def dashboard():
 
     cursor.execute("""
         SELECT * FROM expenses
-        WHERE user_id=? AND
+        WHERE user_id=%s AND
         (
-            title LIKE ?
-            OR category LIKE ?
+            title LIKE %s
+            OR category LIKE %s
         )
         """,
         (
@@ -400,11 +404,11 @@ Password must contain:
 - Special character
 """
 
-        conn = sqlite3.connect("fintrack.db")
+        conn = get_connection()
         cursor = conn.cursor()
 
         cursor.execute(
-            "SELECT * FROM users WHERE email=?",
+            "SELECT * FROM users WHERE email=%s",
             (email,)
         )
 
@@ -416,7 +420,7 @@ Password must contain:
 
         cursor.execute("""
         INSERT INTO users(fullname,email,password)
-        VALUES(?,?,?)
+        VALUES(%s,%s,%s)
         """, (
             fullname,
             email,
@@ -439,14 +443,14 @@ def export():
     if "user_id" not in session:
         return redirect(url_for("login"))
 
-    conn = sqlite3.connect("fintrack.db")
+    conn = get_connection()
     cursor = conn.cursor()
 
     cursor.execute(
         """
         SELECT title, amount, category, date
         FROM expenses
-        WHERE user_id=?
+        WHERE user_id=%s
         """,
         (session["user_id"],)
     )
